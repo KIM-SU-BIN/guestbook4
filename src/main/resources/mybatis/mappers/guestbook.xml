@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="guestbook">
+
+
+	<resultMap id="MainVo" type="com.javaex.vo.MainVo">
+      <result column="reg_date" property="regDate" />
+   </resultMap>
+
+
+	<select id="selectList" resultType="com.javaex.vo.MainVo">
+	<![CDATA[
+		select no, 
+				name,
+				password,
+				content, 
+				to_char(reg_date, 'YYYY-MM-DD HH:MI:SS') regDate
+		from guestbook
+	]]>
+	</select>
+	
+	
+
+	<!-- insert, update는 parameterType을 쓰고, delete는 때에 따라 다름! -->
+	<insert id="guestInsert" parameterType="com.javaex.vo.MainVo">
+	<![CDATA[
+		insert into guestbook 
+		values(seq_guestbook_no.nextval, #{name}, #{password}, #{content}, sysdate) 
+	]]>
+	</insert>
+	
+	
+	<!-- 1명 불러오기 -->
+	<select id="getMainList" resultType="com.javaex.vo.MainVo">
+	<![CDATA[
+		select  no,
+				name, 
+				password, 
+				content, 
+				to_char(reg_date, 'YYYY-MM-DD HH:MI:SS') regDate
+		from guestbook 
+		where no = #{nno}
+	
+	]]>
+	
+	</select>
+</mapper>
